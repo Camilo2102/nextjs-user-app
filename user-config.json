@@ -1,0 +1,86 @@
+{
+    "id": "12345",
+    "modules": [
+        {
+            "name": "CRUD",
+            "type": 0,
+            "pages": [
+                {
+                    "name": "CategoriasEcommerce",
+                    "permissions": [
+                        "admin"
+                    ],
+                    "props": {
+                        "element": "Categorias",
+                        "title": "Categorias",
+                        "addable": true,
+                        "editable": true,
+                        "deleteable": true,
+                        "exportable": true,
+                        "detaileable": true,
+                        "tableProps": {
+                            "columns": [
+                                {
+                                    "name": "nombre",
+                                    "uid": "nombre",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "descripcion",
+                                    "uid": "descripcion",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "ACTIONS",
+                                    "uid": "actions",
+                                    "type": "actions"
+                                }
+                            ],
+                            "values": []
+                        },
+                        "disableAddFields": true,
+                        "fieldsDisabled": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Landing",
+            "type": 2,
+            "pages": [
+                {
+                    "name": "index",
+                    "props": {
+                        "animation": "fallAnimation",
+                        "interval": 1,
+                        "enabled": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Categories",
+            "type": 2,
+            "pages": [
+                {
+                    "name": "index",
+                    "props": {
+                        "itemsPerRow": 3
+                    }
+                }
+            ]
+        }
+    ],
+    "globalProps": {
+        "eCommerceNavBar": {
+            "isStatic": true,
+            "brand": "WebGen",
+            "menuItems": [
+                {
+                    "name": "Categorias",
+                    "path": "/categories"
+                }
+            ]
+        }
+    }
+}
