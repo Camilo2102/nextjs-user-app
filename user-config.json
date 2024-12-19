@@ -53,7 +53,30 @@
                     "props": {
                         "animation": "fallAnimation",
                         "interval": 1,
-                        "enabled": true
+                        "enabled": true,
+                        "images": [
+                            "https://webgen-images-bucket.s3.us-east-1.amazonaws.com/users/a7527ead-1c6e-48d7-ae5e-1e1d044b94a7/landing/webgen-example.webp"
+                        ],
+                        "categories": [
+                            {
+                                "name": "Categoria 1",
+                                "description": "Contribute to the planet",
+                                "image": "https://nextui.org/images/card-example-3.jpeg",
+                                "default": true
+                            },
+                            {
+                              "name": "Categoria 2",
+                              "description": "Contribute to the planet",
+                              "image": "https://nextui.org/images/card-example-3.jpeg",
+                              "default": true
+                            },
+                            {
+                              "name": "Categoria 3",
+                              "description": "Contribute to the planet",
+                              "image": "https://nextui.org/images/card-example-3.jpeg",
+                              "default": true
+                            }
+                        ]
                     }
                 }
             ]
@@ -65,7 +88,8 @@
                 {
                     "name": "index",
                     "props": {
-                        "itemsPerRow": 3
+                        "itemsPerRow": 4,
+                        "cardType": 1
                     }
                 }
             ]

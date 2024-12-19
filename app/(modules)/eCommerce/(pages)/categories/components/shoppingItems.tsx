@@ -1,13 +1,18 @@
 import { Pagination, Spacer } from "@nextui-org/react";
 import ShoppingItemSkeleton from "./shoppingItemSkeleton";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import simpleCRUDService from "@/app/services/simpleCRUDService";
+import ECommerceItem1 from "./eCommerceItem1";
+import ECommerceItem2 from "./eCommerceItem2";
 
 export default function ShoppingItems({
   itemsPerRow,
+  cardType
 }: {
   itemsPerRow: number;
+  cardType: number;
 }) {
-  const itemsAmount = itemsPerRow * 2;
-
   
   const gridClasses = `grid gap-4 ${
     itemsPerRow === 2
@@ -17,11 +22,29 @@ export default function ShoppingItems({
       : `grid-cols-${itemsPerRow}`
   }`;
 
+
+  const { get } = useSearchParams();
+  const { getAll } = simpleCRUDService('itemsEcommerce');
+
+  const [items, setItems] = useState<any>([]);
+
+  const category = get('category');
+
+  useEffect(() => {
+    getAll().then((res) => {
+      const filteredItems = res.filter((item: any) => item.categoria === category);
+      setItems(filteredItems);  
+    });
+    // eslint-disable-next-line
+  }, [category]);
+
+  const CardType = cardType === 1 ? ECommerceItem1 : ECommerceItem2;
+
   return (
     <>
       <div className={gridClasses}>
-        {Array.from({ length: itemsAmount }).map((_, index) => (
-          <ShoppingItemSkeleton key={index} />
+        {items.map((item: any) => (
+          <CardType key={item.id} item={item} />
         ))}
       </div>
       <Spacer y={8}></Spacer>

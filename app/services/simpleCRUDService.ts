@@ -5,10 +5,10 @@ import { useParams } from "next/navigation";
 
 const apiInstance = createApiInstance({ baseURL: "http://localhost:9001/api/v2/", headers: { 'Content-Type': 'application/json' } });
 
-export default function simpleCRUDService(){
+export default function useSimpleCRUDService(pageEndpoint?: string){
     const { name } = useParams();
     
-    const endpoint = (name as string).charAt(0).toLowerCase() + (name as string).slice(1);
+    const endpoint = pageEndpoint || (name as string).charAt(0).toLowerCase() + (name as string).slice(1);
 
     const getAll = async () => {
         return apiInstance(endpoint)

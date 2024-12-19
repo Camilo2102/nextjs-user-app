@@ -12,7 +12,7 @@ export default function EcommerceCategoriesPage() {
 
   return (
     <>
-      <CategoriesFullView itemsPerRow={categoriesProps?.itemsPerRow} />
+      <CategoriesFullView itemsPerRow={categoriesProps?.itemsPerRow} cardType={categoriesProps?.cardType} />
     </>
   );
 }

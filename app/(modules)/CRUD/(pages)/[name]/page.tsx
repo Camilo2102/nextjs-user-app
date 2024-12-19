@@ -25,6 +25,7 @@ export default function CRUDPage() {
         };
 
         loadCrudProps();
+    // eslint-disable-next-line
     }, [name]);
 
 

@@ -57,9 +57,17 @@ export namespace ECommerceModule {
         interval: number;
         isStatic: boolean;
         enabled: boolean;
+        categories: any;
     }
 
     type CategoriesProps = {
         itemsPerRow: number;
+        cardType: number;
+    }
+
+    type Item = {
+        title: string;
+        img: string;
+        price: string;
     }
 }

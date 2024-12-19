@@ -4,7 +4,7 @@ import useDidMountEffect from '../hooks/useDidMountEffect';
 import { CrudModule } from '@/@types/types';
 
 import useLocalStorage from '../hooks/useLocalStorage';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 type UserConfigContextType = {
     userConfig: UserConfig.Config | null;
@@ -52,7 +52,11 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     };
 
     const getModuleProps = (moduleName: string, pageName: string) => {
+        // eslint-disable-next-line
         const module = userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase());
+
+        if(!module) return;
+
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
 
         if(!page?.props) {
@@ -72,7 +76,11 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
         if(!role) return false;
 
+        // eslint-disable-next-line
         const module = userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase());
+
+        if(!module) return false;
+
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
 
         return page?.permissions.includes(role) ?? false;

@@ -8,38 +8,35 @@ import "react-awesome-slider/dist/custom-animations/scale-out-animation.css";
 
 // @ts-ignore
 import withAutoplay from "react-awesome-slider/dist/autoplay";
-import { useState } from "react";
-import useDidMountEffect from "@/app/hooks/useDidMountEffect";
+import { useEffect, useState } from "react";
+import { useUserConfig } from "@/app/context/UserConfigContext";
+
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
-export default function News({interval = 5, animation = "cubeAnimation"}: {interval?: number, animation?: string}) {
-  const data = [
-    {
-      id: "1",
-      icon: "asset/mobile.png",
-      title: "Web Design",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-      img: "https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/10/attachment_100040756-e1538485934255.jpeg?auto=format&q=60&fit=max&w=930",
-    },
-    {
-      id: "2",
-      icon: "asset/globe.png",
-      title: "Mobile Application",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      img: "https://i.pinimg.com/originals/e9/c9/2f/e9c92f7869d682a6fa5a97fb8a298f30.jpg",
-    },
-    {
-      id: "3",
-      icon: "asset/writing.png",
-      title: "Branding",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      img: "https://i.pinimg.com/originals/a9/f6/94/a9f69465d972a004ad581f245d6ad581.jpg",
-    },
-  ];
+const data = [
+  {
+    id: "1",
+    icon: "asset/mobile.png",
+    title: "Web Design",
+    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+    img: "https://webgen-images-bucket.s3.amazonaws.com/webgen/webgen-example.webp",
+  }
+];
 
-  const [reload, setReload] = useState(false);
+type NewsProps = {
+  interval: number;
+  animation: string;
+}
 
-  useDidMountEffect(()=> {
+export default function News({ props }: { props: NewsProps }) {
+  
+  const [reload, setReload] = useState<boolean>(false);
+
+  const { getModuleProps } = useUserConfig();
+
+  const images = (getModuleProps('Landing', 'index') as any).images;
+
+  useEffect(() => {
     setReload(false);
 
     const timer = setTimeout(() => {
@@ -47,26 +44,36 @@ export default function News({interval = 5, animation = "cubeAnimation"}: {inter
     }, 1);
 
     return () => clearTimeout(timer);
-  }, [])
+    // eslint-disable-next-line
+  }, [props?.interval])
+
+  const selectImageSource = () => {
+    if (images.length > 0) return images.map((url: string, index: number) => (
+      <div key={index}>
+        <img src={url} alt={`Landing image - ${index + 1}`} />
+      </div>
+    ))
+    return data.map((d) => (
+      <div key={d.id}>
+        <img src={d.img} alt={d.desc} />
+      </div>
+    ))
+  }
 
   return (
     <div className="App">
-      <AutoplaySlider
+      {reload && <AutoplaySlider
         play={true}
         cancelOnInteraction={false}
-        interval={interval * 1000}
+        interval={(props?.interval ?? 5) * 1000}
         infinite={true}
         bullets={false}
-        buttons={true}
+        buttons={false}
         startup={true}
-        animation={animation}
+        animation={props?.animation ?? 'cubeAnimation'}
       >
-        {data.map((d) => (
-            <div key={d.id}>
-              <img src={d.img} alt={d.desc} />
-            </div>
-        ))}
-      </AutoplaySlider>
+        {selectImageSource()}
+      </AutoplaySlider>}
     </div>
   );
 }

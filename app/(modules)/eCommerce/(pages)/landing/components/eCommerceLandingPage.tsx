@@ -15,8 +15,8 @@ export default function ECommerceLanding(){
     
     return(
         <>
-            <News interval={eCommerceProps?.interval} animation={eCommerceProps?.animation}/>
-            {eCommerceProps?.enabled && <PrincipalCategories />}
+            <News props={eCommerceProps}/>
+            {eCommerceProps?.enabled && <PrincipalCategories categories={eCommerceProps?.categories} />}
         </>
     )
 }
