@@ -1,4 +1,6 @@
+import { use, useEffect, useState } from "react";
 import EcommerceCategoriesPage from "./components/eCommerceCategoriesPage";
+import useLocalStorage from "@/app/hooks/useLocalStorage";
 
 export default function CategoriesPage() {
     return <div className="grid grid-cols-4 gap-4 h-full">

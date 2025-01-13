@@ -8,6 +8,7 @@ import useNotification from "@/app/hooks/useNotification";
 import useDidMountEffect from "@/app/hooks/useDidMountEffect";
 import { useState } from "react";
 import { useTableContext } from "../../context/tableContext";
+import Image from "next/image";
 
 export const CrudTable = (tableConfig: CrudModule.TableConfig,) => {
 
@@ -44,12 +45,29 @@ export const CrudTable = (tableConfig: CrudModule.TableConfig,) => {
         <TableBody >
           {data.map((value: any) => (
             <TableRow key={JSON.stringify(value)}>
-              {(columnKey) => (
-                <TableCell>
-                  {columnKey === 'actions' ? <CrudActions  data={value} columns={tableConfig.tableProps.columns} detaileable={tableConfig.detaileable} deleteable={tableConfig.deleteable} editable={tableConfig.editable}></CrudActions> : value[columnKey]}
-                </TableCell>
-              )}
-            </TableRow>
+            {(columnKey) => {
+              let content;
+          
+              if (columnKey === 'actions') {
+                content = (
+                  <CrudActions data={value} columns={tableConfig.tableProps.columns} detaileable={tableConfig.detaileable} deleteable={tableConfig.deleteable} editable={tableConfig.editable}></CrudActions>
+                );
+              } else if (columnKey === 'image') {
+                content = (
+                  <Image
+                    src={value[columnKey]}
+                    alt="Shopping Item Preview"
+                    width={290}
+                    height={190}
+                  />
+                );
+              } else {
+                content = value[columnKey];
+              }
+          
+              return <TableCell>{content}</TableCell>;
+            }}
+          </TableRow>
           ))}
         </TableBody>
       </Table>

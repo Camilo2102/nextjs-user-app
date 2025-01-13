@@ -16,6 +16,7 @@ import {
 import React, { useState } from "react";
 import { useTableContext } from "../../context/tableContext";
 import { EditIcon } from "@/app/icons/crud/EditIcon";
+import SingleUploadComponent from "@/app/components/SingleUploadComponent";
 
 export const ActionModal = ({ title, columns, type = 'create', info }: { title: string, columns: CrudModule.Column[], type: 'create' | 'update', info?: any }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,6 +32,7 @@ export const ActionModal = ({ title, columns, type = 'create', info }: { title: 
   const createInputs = () => {
     return columns.map(column => {
       if (column.type === 'actions') return;
+      if(column.type === 'image') return <SingleUploadComponent  path={column.name} onUpload={(url) => setData({ ...data, [column.name]: url})}/>
       return <Input type={column.type} key={column.name} label={column.name} value={data[column.name]} onChange={(e) => setData({ ...data, [column.name]: e.target.value })} />
     }
     )
