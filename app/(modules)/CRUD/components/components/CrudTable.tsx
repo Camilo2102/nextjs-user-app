@@ -5,8 +5,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import CrudActions from "./CrudActions";
 import simpleCRUDService from "@/app/services/simpleCRUDService";
 import useNotification from "@/app/hooks/useNotification";
-import useDidMountEffect from "@/app/hooks/useDidMountEffect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTableContext } from "../../context/tableContext";
 import Image from "next/image";
 
@@ -24,7 +23,7 @@ export const CrudTable = (tableConfig: CrudModule.TableConfig,) => {
     getAll().then(data => setData(data)).catch(error => showErrorAlert(error.message))
   }
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     getData();
   }, [reload])
   

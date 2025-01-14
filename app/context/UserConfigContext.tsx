@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { UserConfig } from '@/@types/userConfig';
-import useDidMountEffect from '../hooks/useDidMountEffect';
 import { CrudModule } from '@/@types/types';
 
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -43,7 +42,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    useDidMountEffect(() => {
+    useEffect(() => {
         loadUserConfig();
     }, []);
 
