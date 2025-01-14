@@ -32,7 +32,7 @@ export const ActionModal = ({ title, columns, type = 'create', info }: { title: 
   const createInputs = () => {
     return columns.map(column => {
       if (column.type === 'actions') return;
-      if(column.type === 'image') return <SingleUploadComponent  path={column.name} onUpload={(url) => setData({ ...data, [column.name]: url})}/>
+      if(column.type === 'image') return <SingleUploadComponent key={column.uid}  path={column.name} onUpload={(url) => setData({ ...data, [column.name]: url})}/>
       return <Input type={column.type} key={column.name} label={column.name} value={data[column.name]} onChange={(e) => setData({ ...data, [column.name]: e.target.value })} />
     }
     )
