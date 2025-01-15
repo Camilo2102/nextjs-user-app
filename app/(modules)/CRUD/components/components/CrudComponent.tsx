@@ -28,7 +28,7 @@ export default function CrudComponent( {crudProps}: {crudProps: CrudModule.Props
             </div>
           </div>
           <div className="max-w-[95rem] mx-auto w-full">
-            <CrudTable tableProps={crudProps.tableProps} detaileable={crudProps.detaileable} deleteable={crudProps.deleteable} editable={crudProps.editable}/>
+          <CrudTable tableProps={crudProps.tableProps} detaileable={crudProps.detaileable} deleteable={crudProps.deleteable} editable={crudProps.editable}/>
           </div>
         </section>
       );

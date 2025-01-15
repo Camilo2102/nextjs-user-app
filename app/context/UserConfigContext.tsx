@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 type UserConfigContextType = {
     userConfig: UserConfig.Config | null;
+    endpoint: string | null;
     isAValidPage: (moduleName: string, pageName: string) => boolean;
     getModuleProps: (moduleName: string, pageName: string) => CrudModule.Props | null;
     hasPermission: (moduleName: string, pageName: string) => boolean;
@@ -22,7 +23,9 @@ export function useUserConfig() {
 
 export function UserConfigProvider({ children }: { children: ReactNode }) {
     const [userConfig, setUserConfig] = useState<UserConfig.Config | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading1, setIsLoading1] = useState(true);
+    const [isLoading2, setIsLoading2] = useState(true);
+    const [endpoint, setEndpoint] = useState<string | null>(null);
     const { getValue } = useLocalStorage();
 
 
@@ -30,20 +33,46 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     const loadUserConfig = async () => {
         try {
+            setIsLoading1(true);
             const response = await fetch('/api/user-config');
             if (!response.ok) {
                 throw new Error('Failed to load user config');
             }
             const config = await response.json();
+            
+            localStorage.setItem("creationConfig", JSON.stringify({
+                userId: config.userId,
+                projectName: config.projectName
+            }))
+
             setUserConfig(config);
-            setIsLoading(false);
+            setIsLoading1(false);
         } catch (error) {
             console.error('Error loading user config:', error);
         }
     };
 
+    const loadEndpoint = async () => {
+        setIsLoading2(true);
+        const creationConfig = localStorage.getItem("creationConfig")
+
+        const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'  // Add headers to specify JSON content
+            },
+            body: creationConfig  // Ensure you're sending JSON as the body
+        });
+
+        const result = await res.json();
+                
+        setEndpoint(result.apiEndpointUrl);
+        setIsLoading2(false);
+     }
+
     useEffect(() => {
         loadUserConfig();
+        loadEndpoint();
     }, []);
 
     const isAValidPage = (moduleName: string, pageName: string) => {
@@ -86,8 +115,8 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <UserConfigContext.Provider value={{ userConfig, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
-            {isLoading ? <div>Loading...</div> : children}
+        <UserConfigContext.Provider value={{ userConfig, endpoint, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
+            {isLoading1 || isLoading2 ? <div>Loading...</div> : children}
         </UserConfigContext.Provider>
     );
 }

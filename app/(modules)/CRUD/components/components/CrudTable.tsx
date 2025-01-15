@@ -8,19 +8,21 @@ import useNotification from "@/app/hooks/useNotification";
 import { useEffect, useState } from "react";
 import { useTableContext } from "../../context/tableContext";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 export const CrudTable = (tableConfig: CrudModule.TableConfig,) => {
-
   const { showErrorAlert } = useNotification();
-
   const { getAll } = simpleCRUDService()
-  
+
   const { reload } = useTableContext();
 
   const [data, setData] = useState<any>([])
 
   const getData = () => {
-    getAll().then(data => setData(data)).catch(error => showErrorAlert(error.message))
+    getAll().then(data => {
+      setData(data)
+    }).catch(error => showErrorAlert(error.message))
   }
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export const CrudTable = (tableConfig: CrudModule.TableConfig,) => {
           )}
         </TableHeader>
         <TableBody >
-          {data.map((value: any) => (
+          {data.length && data.map((value: any) => (
             <TableRow key={JSON.stringify(value)}>
             {(columnKey) => {
               let content;

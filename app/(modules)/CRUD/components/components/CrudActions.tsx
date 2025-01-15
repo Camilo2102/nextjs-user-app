@@ -15,8 +15,6 @@ export default function CrudActions(rowData: CrudModule.RowData) {
     const { reloadTable } = useTableContext();
 
     const handleDelete = async () => {
-        console.log("aca");
-        
         remove(rowData.data.id).then(() => {
             showSuccessAlert("Registro eliminado correctamente");
         }).catch((error) => {

@@ -1,4 +1,5 @@
 import { EventSourceMessage, fetchEventSource } from "@microsoft/fetch-event-source"
+import axios from "axios";
 
 type Headers = { [key: string]: string };
 
@@ -43,12 +44,15 @@ export function createApiInstance(options: ApiInstanceOptions) {
 }
 
 
-export function createApiGatewayApiInstance() {
-    if (process.env.NEXT_PUBLIC_API_URL) return createApiInstance({ baseURL: process.env.NEXT_PUBLIC_API_URL, headers: { 'Content-Type': 'application/json' } });
+export function createApiGatewayApiInstance(url: string) {
+    const baseURL = url || "http://localhost:7878/api";
 
-    console.error("No api gateway variable using local");
-
-    return createApiInstance({ baseURL: "http://localhost:7878/api", headers: { 'Content-Type': 'application/json' } });
+    return axios.create({
+        baseURL: baseURL,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 }
 
 export async function createServerSideEventInstance(endpoint: string, options: ServerSideEventInstanceOptions) {
