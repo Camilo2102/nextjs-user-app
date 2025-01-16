@@ -54,26 +54,44 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     const loadEndpoint = async () => {
         setIsLoading2(true);
-        const creationConfig = localStorage.getItem("creationConfig")
+        const creationConfig = localStorage.getItem("creationConfig");
+        
+        const delayMs = 500;  // Delay between retries (in milliseconds)
+        
+        while (true) {
+            try {
+                const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',  // Specify JSON content type
+                    },
+                    body: creationConfig,  // Ensure you're sending JSON as the body
+                });
+    
+                // If the response status is 400, retry
+                if (res.status === 400) {
+                    console.log('Request failed with status 400, retrying...');
+                    await new Promise(resolve => setTimeout(resolve, delayMs)); // Retry after delay
+                    continue; // Retry the request
+                }
+    
 
-        const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'  // Add headers to specify JSON content
-            },
-            body: creationConfig  // Ensure you're sending JSON as the body
-        });
-
-        const result = await res.json();
-                
-        setEndpoint(result.apiEndpointUrl);
-        setIsLoading2(false);
-     }
-
+                const result = await res.json();
+                setEndpoint(result.apiEndpointUrl);
+                setIsLoading2(false);
+                break;
+    
+            } catch (error) {
+                await new Promise(resolve => setTimeout(resolve, delayMs)); 
+            }
+        }
+    };
+    
     useEffect(() => {
         loadUserConfig();
         loadEndpoint();
     }, []);
+    
 
     const isAValidPage = (moduleName: string, pageName: string) => {
         return userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase())?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase()) !== undefined;
@@ -115,8 +133,17 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <UserConfigContext.Provider value={{ userConfig, endpoint, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
-            {isLoading1 || isLoading2 ? <div>Loading...</div> : children}
-        </UserConfigContext.Provider>
+        <div>
+            {isLoading2 ? (
+                <div>Initializing App...</div>
+            ) : isLoading1 ? (
+                <div>Loading...</div>
+            ) : (
+                <UserConfigContext.Provider value={{ userConfig, endpoint, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
+                    {children}
+                </UserConfigContext.Provider>
+            )}
+        </div>
     );
+    
 }
