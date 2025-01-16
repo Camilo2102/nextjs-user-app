@@ -41,7 +41,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
             const config = await response.json();
             
             localStorage.setItem("creationConfig", JSON.stringify({
-                userId: config.userId,
+                userId: config.id,
                 projectName: config.projectName
             }))
 
