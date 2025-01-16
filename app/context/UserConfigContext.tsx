@@ -54,11 +54,11 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     const loadEndpoint = async () => {
         setIsLoading2(true);
-        const creationConfig = localStorage.getItem("creationConfig");
         
-        const delayMs = 50000;  // Delay between retries (in milliseconds)
+        const delayMs = 50000;
         
         while (true) {
+            const creationConfig = localStorage.getItem("creationConfig");
             try {
                 const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
                     method: "POST",
