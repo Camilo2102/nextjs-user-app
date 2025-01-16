@@ -39,7 +39,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
                 throw new Error('Failed to load user config');
             }
             const config = await response.json();
-            
+                        
             localStorage.setItem("creationConfig", JSON.stringify({
                 userId: config.id,
                 projectName: config.projectName
@@ -58,14 +58,23 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
         const delayMs = 50000;
         
         while (true) {
-            const creationConfig = localStorage.getItem("creationConfig");
+            const creationConfig = localStorage.getItem("creationConfig") as string;
+
+            const config = JSON.parse(creationConfig);
+    
+   
+            const cleanedUserId = config.userId.replace(/-/g, '');
+
             try {
                 const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',  // Specify JSON content type
                     },
-                    body: creationConfig,  // Ensure you're sending JSON as the body
+                    body: JSON.stringify({
+                        userId: cleanedUserId, // Use the cleaned userId without dashes
+                        projectName: config.projectName,
+                    })
                 });
     
                 // If the response status is 400, retry
