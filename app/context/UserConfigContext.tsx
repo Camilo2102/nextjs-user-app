@@ -56,7 +56,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
         setIsLoading2(true);
         const creationConfig = localStorage.getItem("creationConfig");
         
-        const delayMs = 500;  // Delay between retries (in milliseconds)
+        const delayMs = 50000;  // Delay between retries (in milliseconds)
         
         while (true) {
             try {
