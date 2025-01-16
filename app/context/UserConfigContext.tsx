@@ -39,7 +39,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
                 throw new Error('Failed to load user config');
             }
             const config = await response.json();
-                        
+
             localStorage.setItem("creationConfig", JSON.stringify({
                 userId: config.id,
                 projectName: config.projectName
@@ -54,18 +54,18 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     const loadEndpoint = async () => {
         setIsLoading2(true);
-        
+
         const delayMs = 50000;
-        
+
         while (true) {
-            const creationConfig = localStorage.getItem("creationConfig") as string;
-
-            const config = JSON.parse(creationConfig);
-    
-   
-            const cleanedUserId = config.userId.replace(/-/g, '');
-
             try {
+
+                const creationConfig = localStorage.getItem("creationConfig") as string;
+
+                const config = JSON.parse(creationConfig);
+
+                const cleanedUserId = config.userId.replace(/-/g, '');
+
                 const res = await fetch("https://neoepxiis2bkwoloyrrpq4dejm0idycr.lambda-url.us-east-2.on.aws", {
                     method: "POST",
                     headers: {
@@ -76,31 +76,31 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
                         projectName: config.projectName,
                     })
                 });
-    
+
                 // If the response status is 400, retry
                 if (res.status === 400 || res.status === 404) {
                     console.log('Request failed with status 400, retrying...');
                     await new Promise(resolve => setTimeout(resolve, delayMs)); // Retry after delay
                     continue; // Retry the request
                 }
-    
+
 
                 const result = await res.json();
                 setEndpoint(result.apiEndpointUrl);
                 setIsLoading2(false);
                 break;
-    
+
             } catch (error) {
-                await new Promise(resolve => setTimeout(resolve, delayMs)); 
+                await new Promise(resolve => setTimeout(resolve, delayMs));
             }
         }
     };
-    
+
     useEffect(() => {
         loadUserConfig();
         loadEndpoint();
     }, []);
-    
+
 
     const isAValidPage = (moduleName: string, pageName: string) => {
         return userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase())?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase()) !== undefined;
@@ -110,15 +110,15 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
         // eslint-disable-next-line
         const module = userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase());
 
-        if(!module) return;
+        if (!module) return;
 
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
 
-        if(!page?.props) {
+        if (!page?.props) {
             router.push('/not-found');
             return;
         };
-        
+
         return page?.props;
     };
 
@@ -129,12 +129,12 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     const hasPermission = (moduleName: string, pageName: string) => {
         const role = getValue('role');
 
-        if(!role) return false;
+        if (!role) return false;
 
         // eslint-disable-next-line
         const module = userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase());
 
-        if(!module) return false;
+        if (!module) return false;
 
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
 
@@ -154,5 +154,5 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
             )}
         </div>
     );
-    
+
 }
