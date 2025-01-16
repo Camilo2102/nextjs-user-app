@@ -69,7 +69,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
                 });
     
                 // If the response status is 400, retry
-                if (res.status === 400) {
+                if (res.status === 400 || res.status === 404) {
                     console.log('Request failed with status 400, retrying...');
                     await new Promise(resolve => setTimeout(resolve, delayMs)); // Retry after delay
                     continue; // Retry the request
