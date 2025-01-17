@@ -7,7 +7,7 @@ export default function useSimpleCRUDService(pageEndpoint?: string) {
   const { endpoint } = useUserConfig();
   
   // Create an Axios instance using the endpoint
-  const apiInstance = createApiGatewayApiInstance(endpoint as string + "api/v2/");
+  const apiInstance = createApiGatewayApiInstance(endpoint as string + "CRUD/");
   
   // Determine the query endpoint based on the pageEndpoint or the resource name
   const queryEndpoint = pageEndpoint || (name as string).charAt(0).toLowerCase() + (name as string).slice(1);
