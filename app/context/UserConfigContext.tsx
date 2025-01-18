@@ -129,14 +129,16 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     const hasPermission = (moduleName: string, pageName: string) => {
         const role = getValue('role');
 
-        if (!role) return false;
-
         // eslint-disable-next-line
         const module = userConfig?.modules.find(module => module.name.toLowerCase() === moduleName.toLowerCase());
 
         if (!module) return false;
 
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
+
+        if(page?.permissions.length === 0) return true;
+
+        if(!role) return false;
 
         return page?.permissions.includes(role) ?? false;
     };
