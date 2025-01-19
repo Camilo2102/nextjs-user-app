@@ -26,7 +26,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     const [isLoading1, setIsLoading1] = useState(true);
     const [isLoading2, setIsLoading2] = useState(true);
     const [endpoint, setEndpoint] = useState<string | null>(null);
-    const { getValue } = useLocalStorage();
+    const { getValue, saveValue } = useLocalStorage();
 
 
     const router = useRouter();
@@ -97,6 +97,10 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
+        const role = getValue("role");
+
+        if(!role) saveValue("role", "guess")
+
         loadUserConfig();
         loadEndpoint();
     }, []);
@@ -136,12 +140,12 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
         const page = module?.pages.find(page => page.name.toLowerCase() === pageName.toLowerCase());
 
-        if(page?.permissions.length === 0) return true;
+        if(page?.permissions?.length === 0) return true;
 
         if(!role) return false;
 
         return page?.permissions.includes(role) ?? false;
-    };
+    }
 
     return (
         <div>
