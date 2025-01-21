@@ -149,7 +149,7 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     return (
         <div>
-            {false ? (
+            {isLoading2 ? (
                 <div>Initializing App...</div>
             ) : isLoading1 ? (
                 <div>Loading...</div>
