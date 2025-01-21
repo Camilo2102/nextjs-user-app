@@ -149,15 +149,9 @@ export function UserConfigProvider({ children }: { children: ReactNode }) {
 
     return (
         <div>
-            {isLoading2 ? (
-                <div>Initializing App...</div>
-            ) : isLoading1 ? (
-                <div>Loading...</div>
-            ) : (
-                <UserConfigContext.Provider value={{ userConfig, endpoint, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
+<UserConfigContext.Provider value={{ userConfig, endpoint, isAValidPage, getModuleProps, hasPermission, getGlobalProps }}>
                     {children}
                 </UserConfigContext.Provider>
-            )}
         </div>
     );
 

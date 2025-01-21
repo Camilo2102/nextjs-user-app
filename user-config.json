@@ -126,13 +126,24 @@
         }
     ],
     "globalProps": {
-        "eCommerceNavBar": {
+        "navbar": {
             "isStatic": true,
             "brand": "WebGen",
-            "menuItems": [
+            "items": [
                 {
                     "name": "Categorias",
-                    "path": "/categories"
+                    "path": "/eCommerce/categories",
+                    "roles": ["user", "guess"]
+                },
+                {
+                    "name": "Inicio",
+                    "path": "/eCommerce/landing",
+                    "roles": ["user", "guess", "admin"]
+                },
+                {
+                    "name": "Registrar usuario",
+                    "path": "/auth/register/6c214757-2a61-4c4e-b3cc-98e303660fa6",
+                    "roles": ["admin"]
                 }
             ]
         }

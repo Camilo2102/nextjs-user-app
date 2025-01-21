@@ -12,13 +12,32 @@ import {
 } from "@nextui-org/react";
 import { useUserConfig } from "@/app/context/UserConfigContext";
 import ShoppingCart from "../(pages)/landing/components/shoppingCart";
+import useLocalStorage from "@/app/hooks/useLocalStorage";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
-  const menuItems = ["Inicio", "Categorias", , "Log Out"];
+  const { getValue } = useLocalStorage()
+  const menuItems = ["Inicio", "Categorias", "Log Out"];
+
+  const [logged, setLogged] = useState<boolean>(false);
+  const [role, setRole] = useState<string>("guess");
 
   const { getGlobalProps } = useUserConfig();
 
   const globalProps = getGlobalProps();
+
+  useEffect(()=> {
+    const role = getValue("role");
+
+    setRole(role ?? "guess")
+
+    if(!role || role === "guess" ) {
+      return setLogged(false);
+    }
+
+    setLogged(true);
+
+  }, [])
 
   const logginButtons = () => {
     return (
@@ -101,37 +120,39 @@ export default function NavBar() {
     );
   };
 
+  const generateMenuItems = () => {
+    return globalProps?.navbar?.items.filter(item => role && item.roles.includes(role)).map(item =>
+      <NavbarItem>
+        <Link href={item.path}>
+          {item.name}
+        </Link>
+      </NavbarItem>
+    )
+  }
+
   return (
-    <Navbar position={globalProps?.eCommerceNavBar.isStatic ? "static" : "sticky"}>
+    <Navbar position={globalProps?.navbar?.isStatic ? "static" : "sticky"}>
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit">{globalProps?.eCommerceNavBar.brand ?? "Demo"}</p>
+          <p className="font-bold text-inherit">{globalProps?.navbar?.brand ?? "Demo"}</p>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit">{globalProps?.eCommerceNavBar.brand ?? "Demo"}</p>
+          <p className="font-bold text-inherit">{globalProps?.navbar?.brand ?? "Demo"}</p>
         </NavbarBrand>
-        <NavbarItem>
-          <Link color="foreground" href="/eCommerce/landing">
-            Inicio
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="/eCommerce/categories" aria-current="page" color="warning">
-            Categorias
-          </Link>
-        </NavbarItem>
+        {generateMenuItems()}
       </NavbarContent>
-
+      
       <NavbarContent justify="end">
-        {logginButtons()}
+          {logged ? loggedButtons() : logginButtons() }
       </NavbarContent>
+      
 
       <NavbarMenu>
         {menuItems.map((item, index) => (
@@ -142,8 +163,8 @@ export default function NavBar() {
                 index === 2
                   ? "warning"
                   : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
+                    ? "danger"
+                    : "foreground"
               }
               href="#"
               size="lg"

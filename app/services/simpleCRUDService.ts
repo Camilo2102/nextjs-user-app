@@ -5,7 +5,7 @@ import { useUserConfig } from "../context/UserConfigContext";
 export default function useSimpleCRUDService(pageEndpoint?: string) {
   const { name } = useParams();
   const { endpoint } = useUserConfig();
-  
+
   // Create an Axios instance using the endpoint
   const apiInstance = createApiGatewayApiInstance(endpoint as string + "CRUD/");
   

@@ -20,18 +20,19 @@ export namespace UserConfig {
     }
 
     export interface GlobalProps {
-        [key: string]: NavBarProps;
+        navbar: NavBarProps;
     }
 
     export interface NavBarProps {
         isStatic: boolean;
         brand: string;
-        menuItems: MenuItem[];
+        items: MenuItem[];
     }
 
     export interface MenuItem {
         name: string;
         path: string;
+        roles: string[];
     }
     
 }

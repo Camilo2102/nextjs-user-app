@@ -1,7 +1,8 @@
 export namespace Login {
     type LoginRequest =  {
         userName: string;
-        password: string
+        password: string;
+        ownerId: string;
     }
 
     type LoginResponse = {
@@ -14,6 +15,8 @@ export namespace Register {
         mail: string;
         userName: string;
         password: string;
+        ownerId: string;
+        role: string;
     }
 
     type RegisterResponse = {
@@ -29,7 +32,7 @@ export namespace Register {
 
 type AuthResponse = {
     token: string;
-    userId: string;
+    role: string;
 }
 
 export namespace Authorization {

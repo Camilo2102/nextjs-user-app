@@ -3,6 +3,7 @@
 import { NextUIProvider } from '@nextui-org/react'
 import { UserConfigProvider } from './context/UserConfigContext'
 import { ImagesS3UrlProvider } from './context/ImagesContext'
+import { AuthProvider } from './context/AuthContext'
 
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <NextUIProvider>
         <UserConfigProvider>
           <ImagesS3UrlProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </ImagesS3UrlProvider>
         </UserConfigProvider>
       </NextUIProvider>
