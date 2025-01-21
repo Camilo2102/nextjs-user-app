@@ -121,7 +121,7 @@ export default function NavBar() {
   };
 
   const generateMenuItems = () => {
-    return globalProps?.navbar?.items.filter(item => role && item.roles.includes(role)).map(item =>
+    return globalProps?.navbar?.items.filter(item => role && !item.roles || item.roles.length === 0 || item.roles.includes(role)).map(item =>
       <NavbarItem key={item.name + "-" + item.path}>
         <Link href={item.path}>
           {item.name}

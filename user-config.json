@@ -7,13 +7,11 @@
             "type": 0,
             "pages": [
                 {
-                    "name": "CategoriasEcommerce",
-                    "permissions": [
-                        "admin"
-                    ],
+                    "name": "Prueba",
+                    "permissions": [],
                     "props": {
-                        "element": "Categorias",
-                        "title": "Categorias",
+                        "title": "Guess",
+                        "element": "Prueba",
                         "addable": true,
                         "editable": true,
                         "deleteable": true,
@@ -22,13 +20,18 @@
                         "tableProps": {
                             "columns": [
                                 {
-                                    "name": "nombre",
-                                    "uid": "nombre",
+                                    "name": "name",
+                                    "uid": "name",
                                     "type": "string"
                                 },
                                 {
-                                    "name": "descripcion",
-                                    "uid": "descripcion",
+                                    "name": "role",
+                                    "uid": "role",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "status",
+                                    "uid": "status",
                                     "type": "string"
                                 },
                                 {
@@ -37,20 +40,25 @@
                                     "type": "actions"
                                 }
                             ],
-                            "values": []
-                        },
-                        "disableAddFields": true,
-                        "fieldsDisabled": true
+                            "values": [
+                                {
+                                    "id": 1,
+                                    "NAME": "",
+                                    "ROLE": "",
+                                    "STATUS": ""
+                                }
+                            ]
+                        }
                     }
                 },
                 {
-                    "name": "ItemsEcommerce",
+                    "name": "User",
                     "permissions": [
-                        "admin"
+                        "user"
                     ],
                     "props": {
-                        "element": "Items",
-                        "title": "Items",
+                        "title": "User",
+                        "element": "User",
                         "addable": true,
                         "editable": true,
                         "deleteable": true,
@@ -58,68 +66,83 @@
                         "detaileable": true,
                         "tableProps": {
                             "columns": [
-                                {"name": "nombre", "uid": "nombre", "type": "string"},
-                                {"name": "descripcion", "uid": "descripcion", "type": "string"},
-                                {"name": "precio", "uid": "precio", "type": "number"},
-                                {"name": "cantidad", "uid": "cantidad", "type": "number"},
-                                {"name": "image", "uid": "image", "type": "image"},
-                                {"name": "ACTIONS", "uid": "actions", "type": "actions" }
+                                {
+                                    "name": "name",
+                                    "uid": "name",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "role",
+                                    "uid": "role",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "status",
+                                    "uid": "status",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "ACTIONS",
+                                    "uid": "actions",
+                                    "type": "actions"
+                                }
                             ],
                             "values": [
+                                {
+                                    "id": 1,
+                                    "NAME": "",
+                                    "ROLE": "",
+                                    "STATUS": ""
+                                }
                             ]
-                        },
-                        "disableAddFields": true,
-                        "fieldsDisabled": true
+                        }
                     }
-                }
-            ]
-        },
-        {
-            "name": "Landing",
-            "type": 2,
-            "pages": [
+                },
                 {
-                    "name": "index",
+                    "name": "Admin",
+                    "permissions": [
+                        "admin"
+                    ],
                     "props": {
-                        "animation": "fallAnimation",
-                        "interval": 1,
-                        "enabled": true,
-                        "images": [
-                            "https://webgen-images-bucket.s3.us-east-1.amazonaws.com/users/a7527ead-1c6e-48d7-ae5e-1e1d044b94a7/landing/webgen-example.webp"
-                        ],
-                        "categories": [
-                            {
-                                "name": "Categoria 1",
-                                "description": "Contribute to the planet",
-                                "image": "https://nextui.org/images/card-example-3.jpeg",
-                                "default": true
-                            },
-                            {
-                                "name": "Categoria 2",
-                                "description": "Contribute to the planet",
-                                "image": "https://nextui.org/images/card-example-3.jpeg",
-                                "default": true
-                            },
-                            {
-                                "name": "Categoria 3",
-                                "description": "Contribute to the planet",
-                                "image": "https://nextui.org/images/card-example-3.jpeg",
-                                "default": true
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Categories",
-            "type": 2,
-            "pages": [
-                {
-                    "name": "index",
-                    "props": {
-                        "itemsPerRow": 4,
-                        "cardType": 1
+                        "title": "Admin",
+                        "element": "Admin",
+                        "addable": true,
+                        "editable": true,
+                        "deleteable": true,
+                        "exportable": true,
+                        "detaileable": true,
+                        "tableProps": {
+                            "columns": [
+                                {
+                                    "name": "name",
+                                    "uid": "name",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "role",
+                                    "uid": "role",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "status",
+                                    "uid": "status",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "ACTIONS",
+                                    "uid": "actions",
+                                    "type": "actions"
+                                }
+                            ],
+                            "values": [
+                                {
+                                    "id": 1,
+                                    "NAME": "",
+                                    "ROLE": "",
+                                    "STATUS": ""
+                                }
+                            ]
+                        }
                     }
                 }
             ]
@@ -131,19 +154,30 @@
             "brand": "WebGen",
             "items": [
                 {
-                    "name": "Categorias",
-                    "path": "/eCommerce/categories",
-                    "roles": ["user", "guess"]
+                    "name": "Prueba",
+                    "path": "/CRUD/Prueba",
+                    "roles": []
                 },
                 {
-                    "name": "Inicio",
-                    "path": "/eCommerce/landing",
-                    "roles": ["user", "guess", "admin"]
+                    "name": "User",
+                    "path": "/CRUD/User",
+                    "roles": [
+                        "user"
+                    ]
+                },
+                {
+                    "name": "Admin",
+                    "path": "/CRUD/Admin",
+                    "roles": [
+                        "admin"
+                    ]
                 },
                 {
                     "name": "Registrar usuario",
-                    "path": "/auth/register/6c214757-2a61-4c4e-b3cc-98e303660fa6",
-                    "roles": ["admin"]
+                    "path": "/auth/register",
+                    "roles": [
+                        "admin"
+                    ]
                 }
             ]
         }
