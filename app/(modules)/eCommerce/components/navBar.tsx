@@ -122,7 +122,7 @@ export default function NavBar() {
 
   const generateMenuItems = () => {
     return globalProps?.navbar?.items.filter(item => role && item.roles.includes(role)).map(item =>
-      <NavbarItem>
+      <NavbarItem key={item.name + "-" + item.path}>
         <Link href={item.path}>
           {item.name}
         </Link>
