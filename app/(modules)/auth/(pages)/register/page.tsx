@@ -7,7 +7,6 @@ import { useInputState } from "@/app/hooks/useInputState";
 import useLocalStorage from "@/app/hooks/useLocalStorage";
 
 import { Button, Card, CardBody, CardHeader, Input, Select, SelectItem } from "@nextui-org/react";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const RegisterForm = () => {
